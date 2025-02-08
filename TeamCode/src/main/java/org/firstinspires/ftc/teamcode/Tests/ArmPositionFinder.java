@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Arm;
 
+
+@Config
+@TeleOp(group = "tests&tuning")
 public class ArmPositionFinder extends LinearOpMode {
     Arm arm;
 

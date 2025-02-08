@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 @Config
@@ -14,8 +15,8 @@ public class ArmTuning extends LinearOpMode {
     private PIDController rotateController;
     private PIDController extendController;
 
-    public static double rotateP = 0, rotateI = 0, rotateD = 0;
-    public static double extendP = 0, extendI = 0, extendD = 0;
+    public static double rotateP = 0.004, rotateI = 0, rotateD = 0;
+    public static double extendP = 0.04, extendI = 0, extendD = 0;
 
     public static double feedforward = 0;
 
@@ -42,6 +43,18 @@ public class ArmTuning extends LinearOpMode {
         extendMotor1 = hardwareMap.get(DcMotorEx.class, "extend1");
         extendMotor2 = hardwareMap.get(DcMotorEx.class, "extend2");
 
+        rotateMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rotateMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extendMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        extendMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        rotateMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rotateMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        extendMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        extendMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+
         waitForStart();
         if(isStopRequested()) {return;}
         while(opModeIsActive()) {
@@ -54,12 +67,12 @@ public class ArmTuning extends LinearOpMode {
 
             double rotatePower = rotateController.calculate(rotatePosition, rotateTarget);
             double extendPower = extendController.calculate(extendPosition, extendTarget);
-            double feedforwardPower = Math.cos(Math.toRadians(rotateTarget * ticks_in_degree)) * feedforward;
+           // double feedforwardPower = Math.cos(Math.toRadians(rotateTarget * ticks_in_degree)) * feedforward;
 
-            rotatePower += feedforwardPower;
+           // rotatePower += feedforwardPower;
 
-            rotateMotor1.setPower(rotatePower);
-            rotateMotor2.setPower(rotatePower);
+            rotateMotor1.setPower(-rotatePower);
+            rotateMotor2.setPower(-rotatePower);
             extendMotor1.setPower(extendPower);
             extendMotor2.setPower(extendPower);
 
@@ -72,7 +85,7 @@ public class ArmTuning extends LinearOpMode {
             telemetry.addData("Rotate Power", rotatePower);
             telemetry.addData("Extend Power", extendPower);
             //feedforward
-            telemetry.addData("Feedforward Power", feedforwardPower);
+            //telemetry.addData("Feedforward Power", feedforwardPower);
             telemetry.update();
 
 

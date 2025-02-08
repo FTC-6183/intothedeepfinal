@@ -40,10 +40,10 @@ public class UIUC extends LinearOpMode {
 
 
         controller1 = new GamepadEx(gamepad1);
+        controller2 = new GamepadEx(gamepad2);
 
         time = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
 
-        // telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
 
         drive.setDefaultCommand(new ManualDriveCommand(
@@ -55,39 +55,38 @@ public class UIUC extends LinearOpMode {
 
         arm.setDefaultCommand(new ArmCommand(
                 arm,
-                () -> controller2.getButton(GamepadKeys.Button.B),
-                () -> controller2.getButton(GamepadKeys.Button.A),
-                () -> controller2.getButton(GamepadKeys.Button.X),
-                () -> controller2.getButton(GamepadKeys.Button.Y)
+                () -> controller1.getButton(GamepadKeys.Button.B),
+                () -> controller1.getButton(GamepadKeys.Button.A),
+                () -> controller1.getButton(GamepadKeys.Button.X),
+                () -> controller1.getButton(GamepadKeys.Button.Y)
         ));
 
-        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
-
-        for (LynxModule hub : allHubs) {
-            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
-        }
+//        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+//
+//        for (LynxModule hub : allHubs) {
+//            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
+//        }
 
         waitForStart();
 
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            for (LynxModule hub : allHubs) {
-                hub.clearBulkCache();
-            }
+//            for (LynxModule hub : allHubs) {
+//                hub.clearBulkCache();
+//            }
 
 
             time.reset();
             CommandScheduler.getInstance().run();
+            arm.periodic();
 
             double loop = 1000/time.milliseconds();
 
 
 
-
-            telemetry.addData("Loop (hz)", loop);
-
-            telemetry.update();
+           // telemetry.addData("Loop (hz)", loop);
+          //  telemetry.update();
 
         }
     }

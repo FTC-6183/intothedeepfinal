@@ -17,6 +17,9 @@ public class SimpleDrive extends LinearOpMode {
 
         while(opModeIsActive()) {
         drive.robotDrive(gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
+
+        telemetry.addData("smd" ,drive);
+telemetry.update();
         }
 
     }
