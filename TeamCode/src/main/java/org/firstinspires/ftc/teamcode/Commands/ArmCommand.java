@@ -32,8 +32,8 @@ public class ArmCommand extends CommandBase {
             arm.setRotatePosition(Arm.ARM_ROTATE_POSITION.LOW_BUCKET);
             arm.setExtendPosition(Arm.ARM_EXTEND_POSITION.LOW_BUCKET);
         } else if (lowRung.getAsBoolean()) {
-            arm.setRotatePosition(Arm.ARM_ROTATE_POSITION.LOW_RUNG);
-            arm.setExtendPosition(Arm.ARM_EXTEND_POSITION.LOW_RUNG);
+            arm.setRotatePosition(Arm.ARM_ROTATE_POSITION.HIGH_RUNG_START);
+            arm.setExtendPosition(Arm.ARM_EXTEND_POSITION.HIGH_RUNG_START);
         } else if (highRung.getAsBoolean()) {
             arm.setRotatePosition(Arm.ARM_ROTATE_POSITION.HIGH_RUNG);
             arm.setExtendPosition(Arm.ARM_EXTEND_POSITION.HIGH_RUNG);

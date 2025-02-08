@@ -13,8 +13,8 @@ public class Arm extends SubsystemBase {
     private PIDController rotateController;
     private PIDController extendController;
 
-    public static double rotateP = 0, rotateI = 0, rotateD = 0;
-    public static double extendP = 0, extendI = 0, extendD = 0;
+    public static double rotateP = 0.004, rotateI = 0, rotateD = 0;
+    public static double extendP = 0.04, extendI = 0, extendD = 0;
 
     public static double feedforward = 0;
 
@@ -29,32 +29,35 @@ public class Arm extends SubsystemBase {
     private DcMotorEx extendMotor2;
 
     public enum ARM_ROTATE_POSITION  {
+        INTAKE_CLIP,
             INTAKE,
         LOW_BUCKET,
-        LOW_RUNG,
+        HIGH_RUNG_START,
         HIGH_RUNG
     }
     public enum ARM_EXTEND_POSITION {
+        INTAKE_CLIP,
         INTAKE,
         LOW_BUCKET,
-        LOW_RUNG,
+        HIGH_RUNG_START,
         HIGH_RUNG
     }
 
     private Map<ARM_ROTATE_POSITION, Integer> rotatePositions =
             new HashMap<>(Map.of(
-                    ARM_ROTATE_POSITION.INTAKE, 0,
-                    ARM_ROTATE_POSITION.LOW_BUCKET, 0,
-                    ARM_ROTATE_POSITION.LOW_RUNG, 0,
-                    ARM_ROTATE_POSITION.HIGH_RUNG, 0
+                    ARM_ROTATE_POSITION.INTAKE_CLIP, 535,
+                    ARM_ROTATE_POSITION.INTAKE, 800,
+                    ARM_ROTATE_POSITION.LOW_BUCKET, -1015,
+                    ARM_ROTATE_POSITION.HIGH_RUNG_START, -750,
+                    ARM_ROTATE_POSITION.HIGH_RUNG, -750
             ));
     private HashMap<ARM_EXTEND_POSITION, Integer> extendPositions = new HashMap<>(
             Map.of(
-
-                    ARM_EXTEND_POSITION.INTAKE, 0,
-                    ARM_EXTEND_POSITION.LOW_BUCKET, 0,
-                    ARM_EXTEND_POSITION.LOW_RUNG, 0,
-                    ARM_EXTEND_POSITION.HIGH_RUNG, 0
+                    ARM_EXTEND_POSITION.INTAKE_CLIP, 500,
+                    ARM_EXTEND_POSITION.INTAKE, 500,
+                    ARM_EXTEND_POSITION.LOW_BUCKET, 600,
+                    ARM_EXTEND_POSITION.HIGH_RUNG_START, 700,
+                    ARM_EXTEND_POSITION.HIGH_RUNG, 300
             )
     );
 
@@ -72,6 +75,12 @@ public class Arm extends SubsystemBase {
         rotateMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         extendMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         extendMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        rotateMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rotateMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        extendMotor1.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        extendMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 
     public void setRotatePosition(ARM_ROTATE_POSITION position) {
@@ -95,12 +104,12 @@ public class Arm extends SubsystemBase {
 
         double rotatePower = rotateController.calculate(rotatePosition, rotateTarget);
         double extendPower = extendController.calculate(extendPosition, extendTarget);
-        double feedforwardPower = Math.cos(Math.toRadians(rotateTarget * ticks_in_degree)) * feedforward;
+    //    double feedforwardPower = Math.cos(Math.toRadians(rotateTarget * ticks_in_degree)) * feedforward;
 
-        rotatePower += feedforwardPower;
+    //    rotatePower += feedforwardPower;
 
-        rotateMotor1.setPower(rotatePower);
-        rotateMotor2.setPower(rotatePower);
+        rotateMotor1.setPower(-rotatePower);
+        rotateMotor2.setPower(-rotatePower);
         extendMotor1.setPower(extendPower);
         extendMotor2.setPower(extendPower);
 
