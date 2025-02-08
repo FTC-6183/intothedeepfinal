@@ -58,7 +58,8 @@ public class UIUC extends LinearOpMode {
                 () -> controller1.getButton(GamepadKeys.Button.B),
                 () -> controller1.getButton(GamepadKeys.Button.A),
                 () -> controller1.getButton(GamepadKeys.Button.X),
-                () -> controller1.getButton(GamepadKeys.Button.Y)
+                () -> controller1.getButton(GamepadKeys.Button.Y),
+                () -> controller1.getButton(GamepadKeys.Button.RIGHT_BUMPER)
         ));
 
 //        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);

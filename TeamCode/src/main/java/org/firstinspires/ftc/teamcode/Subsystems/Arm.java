@@ -30,7 +30,7 @@ public class Arm extends SubsystemBase {
 
     public enum ARM_ROTATE_POSITION  {
         INTAKE_CLIP,
-            INTAKE,
+        INTAKE,
         LOW_BUCKET,
         HIGH_RUNG_START,
         HIGH_RUNG
