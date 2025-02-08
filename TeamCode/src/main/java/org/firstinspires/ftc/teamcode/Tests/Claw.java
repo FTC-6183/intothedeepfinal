@@ -2,43 +2,30 @@ package org.firstinspires.ftc.teamcode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class Claw extends LinearOpMode {
-    private CRServo leftServo, rightServo, topServo;
+    private Servo leftServo, rightServo, topServo;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        leftServo = hardwareMap.crservo.get("left");
-        rightServo = hardwareMap.crservo.get("right");
-        topServo = hardwareMap.crservo.get("top");
+        leftServo = hardwareMap.servo.get("leftServo");
+        rightServo = hardwareMap.servo.get("rightServo");
+        topServo = hardwareMap.servo.get("topServo");
 
         waitForStart();
 
         while (opModeIsActive()) {
-            if (gamepad1.cross) {
-                setServoPowers(0.01, -0.01, 0);
-                telemetry.addLine("Claw up");
-            } else if (gamepad1.circle) {
-                setServoPowers(-0.01, 0.01, 0);
-                telemetry.addLine("Claw down");
-            } else if (gamepad1.triangle) {
-                setServoPowers(0, 0, 0.01);
-                telemetry.addLine("Claw open");
-            } else if (gamepad1.square) {
-                setServoPowers(0, 0, -0.01);
-                telemetry.addLine("Claw close");
-            } else {
-                setServoPowers(0, 0, 0);
-            }
-            telemetry.update();
-        }
-    }
 
-    private void setServoPowers(double leftPower, double rightPower, double topPower) {
-        leftServo.setPower(leftPower);
-        rightServo.setPower(rightPower);
-        topServo.setPower(topPower);
+            if (gamepad1.cross) {
+                //testing top servo position
+                telemetry.addData("Servo current Position",topServo.getPosition());
+
+                telemetry.update();
+            }
+        }
+
+
     }
 }

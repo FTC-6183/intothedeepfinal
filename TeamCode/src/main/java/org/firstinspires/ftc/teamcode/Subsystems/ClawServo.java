@@ -15,7 +15,7 @@ public class ClawServo extends SubsystemBase {
     private static final double MIN_POSITION = 0.0;
     private static final double ROTATION_INCREMENT = 45.0 / SERVO_RANGE; // 45 degrees in servo range
     private static final double VERTICAL_INCREMENT = 10.0 / SERVO_RANGE; // 10 degrees in servo range
-    private static final double DOWN_POSITION = 0.25; // Less than start position
+    private static final double DOWN_POSITION = 0.25; // moves the claw to its down position
     private static final double UP_POSITION = START_POSITION; // Reset to start position
 
     private double leftServoPosition;

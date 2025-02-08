@@ -14,9 +14,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.UtilityOctoQuadConfigMenu;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Commands.ArmCommand;
+import org.firstinspires.ftc.teamcode.Commands.ClawCommand;
 import org.firstinspires.ftc.teamcode.Commands.ManualDriveCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.Arm;
+import org.firstinspires.ftc.teamcode.Subsystems.ClawServo;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.Tests.Claw;
 
 import java.util.List;
 
@@ -24,6 +27,7 @@ import java.util.List;
 public class UIUC extends LinearOpMode {
     private MecanumDrive drive;
     private Arm arm;
+    private ClawServo claw;
 
     private GamepadEx controller1;
     private GamepadEx controller2;
@@ -37,6 +41,10 @@ public class UIUC extends LinearOpMode {
 
         drive = new MecanumDrive(hardwareMap);
         arm = new Arm(hardwareMap);
+        claw = new ClawServo(hardwareMap);
+
+
+
 
 
         controller1 = new GamepadEx(gamepad1);
@@ -60,6 +68,18 @@ public class UIUC extends LinearOpMode {
                 () -> controller1.getButton(GamepadKeys.Button.X),
                 () -> controller1.getButton(GamepadKeys.Button.Y)
         ));
+
+        claw.setDefaultCommand(
+                new ClawCommand(
+                        claw,
+                        () -> controller2.getButton(GamepadKeys.Button.LEFT_BUMPER),
+                        () -> controller2.getButton(GamepadKeys.Button.RIGHT_BUMPER),
+                        () -> controller2.getButton(GamepadKeys.Button.B),
+                        () -> controller2.getButton(GamepadKeys.Button.A),
+                        () -> controller2.getButton(GamepadKeys.Button.Y) ,
+                        () -> controller2.getButton(GamepadKeys.Button.X)
+
+                ));
 
 //        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 //
