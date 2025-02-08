@@ -9,14 +9,18 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.UtilityOctoQuadConfigMenu;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Commands.ArmCommand;
+import org.firstinspires.ftc.teamcode.Commands.ClawCommand;
 import org.firstinspires.ftc.teamcode.Commands.ManualDriveCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.Arm;
+import org.firstinspires.ftc.teamcode.Subsystems.ClawServo;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.Subsystems.ServoSimple;
 
 import java.util.List;
 
@@ -25,9 +29,10 @@ public class UIUC extends LinearOpMode {
     private MecanumDrive drive;
     private Arm arm;
 
+    private ServoSimple claw;
+
     private GamepadEx controller1;
     private GamepadEx controller2;
-
     private ElapsedTime time;
 
     Telemetry telemetry;
@@ -37,6 +42,16 @@ public class UIUC extends LinearOpMode {
 
         drive = new MecanumDrive(hardwareMap);
         arm = new Arm(hardwareMap);
+        claw = new ServoSimple(hardwareMap);
+
+        Servo top = hardwareMap.get(Servo.class, "top");
+        Servo left = hardwareMap.get(Servo.class, "left");
+        Servo right = hardwareMap.get(Servo.class, "right");
+
+        left.setPosition(0.2);
+        right.setPosition(.2);
+
+     //   ClawServo claw = new ClawServo(hardwareMap);
 
 
         controller1 = new GamepadEx(gamepad1);
@@ -61,6 +76,14 @@ public class UIUC extends LinearOpMode {
                 () -> controller1.getButton(GamepadKeys.Button.Y),
                 () -> controller1.getButton(GamepadKeys.Button.RIGHT_BUMPER)
         ));
+//        claw.setDefaultCommand(new ClawCommand(
+//                claw,
+//                () -> controller1.getButton(GamepadKeys.Button.DPAD_UP),
+//               () -> controller1.getButton(GamepadKeys.Button.DPAD_DOWN),
+//                () -> controller1.getButton(GamepadKeys.Button.LEFT_BUMPER),
+//                () -> controller1.getButton(GamepadKeys.Button.RIGHT_BUMPER),
+//                () -> controller1.getButton(GamepadKeys.Button.DPAD_RIGHT)
+//        ));
 
 //        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 //
@@ -76,18 +99,19 @@ public class UIUC extends LinearOpMode {
 //            for (LynxModule hub : allHubs) {
 //                hub.clearBulkCache();
 //            }
-
-
             time.reset();
             CommandScheduler.getInstance().run();
             arm.periodic();
+            left.setPosition(0.2);
+            right.setPosition(.2);
+            if(gamepad1.dpad_up) {
+               top.setPosition(1);
+            }
+            else if(gamepad1.dpad_down) {
+                top.setPosition(0);
 
-            double loop = 1000/time.milliseconds();
+              }
 
-
-
-           // telemetry.addData("Loop (hz)", loop);
-          //  telemetry.update();
 
         }
     }
